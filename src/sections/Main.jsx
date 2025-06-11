@@ -12,7 +12,7 @@ const Main = ({session, setSession, listOfPets}) => {
 
 
             <div>
-                {listOfPets.map((pet) => <div>a pet</div>)}
+                {/*{listOfPets.map((pet) => <div>a pet</div>)}*/}
             </div>
 
         </section>
