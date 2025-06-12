@@ -12,30 +12,29 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [session, setSession] = useState(null);
     const [listOfPets, setListOfPets] = useState([]);
+    const [filteredPets, setFilteredPets] = useState(null);
 
+    const handleLogIn = async () => {
 
-    async function handleLogIn() {
+        try {
+            const login = await account.getSession("current");
+            login.current && setIsLoggedIn(true);
+            setSession(login);
 
-            try {
-                const login = await account.getSession("current");
-                login.current && setIsLoggedIn(true);
-                setSession(login);
-                console.log(login);
-                console.log(login.userId);
-
-            }   catch (error) {
-                console.log(error);
-            }
+        }   catch (error) {
+            console.log(error);
+        }
     }
 
+
+
+
     useEffect(() => {
+        handleLogIn();
         getAllPetCards(listOfPets, setListOfPets);
     }, []);
 
-    useEffect(() => {
-        !session && setIsLoggedIn(false);
-        handleLogIn();
-    },[]);
+
 
     return (
         <div>
@@ -43,19 +42,11 @@ const App = () => {
                 <LoginPage isloggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
             ) : (
                 <>
-                    <NavBar setIsLoggedIn={setIsLoggedIn}/>
-                    <Main session={session} setSession={setSession} listOfPets={listOfPets}/>
+                    <NavBar  setListOfPets={setListOfPets} setSession={setSession} setIsLoggedIn={setIsLoggedIn}/>
+                    <Main session={session} setSession={setSession} listOfPets={listOfPets} setListOfPets={setListOfPets} filteredPets={filteredPets} setFilteredPets={setFilteredPets}/>
                     <Footer/>
                 </>
             )}
-
-
-            <button onClick={() => setIsLoggedIn(true)}>
-                Set logged in true
-            </button>
-            <button onClick={() => setIsLoggedIn(false)}>
-                Set logged in false
-            </button>
         </div>
     );
 };

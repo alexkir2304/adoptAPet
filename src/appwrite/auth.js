@@ -14,13 +14,15 @@ export const  logInWithGoogle = async () => {
     }
 }
 
-export const  logOut = async (SetIsLoggedIn) => {
+export const  logOut = async (setIsLoggedIn, setSession, setListOfPets) => {
     try {
         await account.deleteSession("current");
     } catch (error) {
         console.error("Error during logging out", error);
     } finally {
-        SetIsLoggedIn('false');
+        setIsLoggedIn(false);
+        setSession(null);
+        setListOfPets(null);
     }
 
 }

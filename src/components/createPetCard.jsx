@@ -1,7 +1,7 @@
 import React from 'react';
 import {createAPetCard} from "../appwrite/database.js";
 
-const CreatePetCard = ({session, setSession}) => {
+const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
 
     const [newAnimalName, setNewAnimalName] = React.useState('');
     const [newAnimalType, setNewAnimalType] = React.useState('');
@@ -14,9 +14,9 @@ const CreatePetCard = ({session, setSession}) => {
                 image section
             </div>
             <form action="">
-                <input value={newAnimalName} onChange={event => setNewAnimalName(event.target.value)} type="text" placeholder="Animal Name" />
-                <input value={newAnimalType} onChange={event => setNewAnimalType(event.target.value)} type="text" placeholder="Animal Breed" />
-                <input value={newAge} onChange={event => setNewAge(event.target.value)} type="text" placeholder="Age" />
+                <input  onChange={event => setNewAnimalName(event.target.value)} type="text" placeholder="Animal Name" />
+                <input  onChange={event => setNewAnimalType(event.target.value)} type="text" placeholder="Animal Breed" />
+                <input  onChange={event => setNewAge(event.target.value)} type="text" placeholder="Age" />
             </form>
             <div className= "flex flex-col justify-center items-center" >
                 <span>testing...</span>
@@ -25,9 +25,8 @@ const CreatePetCard = ({session, setSession}) => {
                 <span> {newAge}</span>
             </div>
 
-            <button onClick={() => {createAPetCard(newAnimalName,newAnimalType,newAge, '', session.userId, setSession, session)}}>Create
+            <button onClick={() => {createAPetCard(newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets)}}>Create
                 Create a Pet Card
-
             </button>
 
         </div>
