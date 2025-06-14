@@ -20,7 +20,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                 pet  :  filters.type === 'all' && filters.age !== 5 ?
                 pet && pet.age === filters.age : pet.animaltype === filters.type && filters.age === 5 ?
                         pet.animaltype === filters.type:
-                pet.animaltype === filters.type && pet.age === filters.age);   //переписать потом этот ад, используя "...filterprops, newfilter" или как-то еще
+                pet.animaltype === filters.type && pet.age === filters.age);   //переписать этот бред. Прогнать все фильтры через цикл, в каждой итерации применить фильтр к listOfPets + добавить полученный кусок в итоговый массив. Повторить, пока фильтры не кончатся. Мозможно придется унифицировать схемы объекта баз данных с именованием фильтров
             setFilteredPets(newFilteredPets);
         }
     }
