@@ -1,4 +1,4 @@
-import React, {use, useEffect, useState} from 'react';
+import React, {createContext, use, useEffect, useState} from 'react';
 import LoginPage from "./sections/LoginPage.jsx";
 import Main from "./sections/Main.jsx";
 import NavBar from "./sections/NavBar.jsx";
@@ -7,12 +7,15 @@ import {account} from "./appwrite/client.js";
 import {logOut} from "./appwrite/auth.js";
 import {getAllPetCards} from "./appwrite/database.js";
 
+export const AccountDataContext = createContext('')
+
 const App = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [session, setSession] = useState(null);
     const [listOfPets, setListOfPets] = useState([]);
     const [filteredPets, setFilteredPets] = useState(null);
+    const [accountData, setAccountData] = useState(null);
 
     const handleLogIn = async () => {
 
@@ -21,12 +24,13 @@ const App = () => {
             login.current && setIsLoggedIn(true);
             setSession(login);
 
+            const accountData = await account.get();
+            setAccountData(accountData);
+
         }   catch (error) {
             console.log(error);
         }
     }
-
-
 
 
     useEffect(() => {
@@ -34,20 +38,24 @@ const App = () => {
         getAllPetCards(listOfPets, setListOfPets);
     }, []);
 
-
-
     return (
-        <div>
-            {!isLoggedIn ? (
-                <LoginPage isloggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-            ) : (
-                <>
-                    <NavBar  setListOfPets={setListOfPets} setSession={setSession} setIsLoggedIn={setIsLoggedIn}/>
-                    <Main session={session} setSession={setSession} listOfPets={listOfPets} setListOfPets={setListOfPets} filteredPets={filteredPets} setFilteredPets={setFilteredPets}/>
-                    <Footer/>
-                </>
-            )}
-        </div>
+
+        <AccountDataContext value={accountData}>
+                <div>
+                    {!isLoggedIn ? (
+                        <LoginPage isloggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+                    ) : (
+                        <>
+                            <NavBar setListOfPets={setListOfPets} setSession={setSession} setIsLoggedIn={setIsLoggedIn}/>
+                            <Main session={session} setSession={setSession} listOfPets={listOfPets}
+                                  setListOfPets={setListOfPets} filteredPets={filteredPets}
+                                  setFilteredPets={setFilteredPets}/>
+                            <Footer/>
+                        </>
+                    )}
+                </div>
+        </AccountDataContext>
+
     );
 };
 
