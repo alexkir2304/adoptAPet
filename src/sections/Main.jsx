@@ -5,7 +5,7 @@ import PetCard from "../components/petCard.jsx";
 
 const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, setFilteredPets}) => {
 
-    const [filters, setFilters] = useState({animaltype: 'cat', age: 5});
+    const [filters, setFilters] = useState({animaltype: 'all', age: 5});
     // const [filters, setFilters] = useState({});
     const [paginationIndex, setPaginationIndex] = useState(12);
     const [paginationSize, setPaginationSize] = useState(12)
@@ -16,21 +16,30 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
 
             const newFilteredPets = listOfPets.filter(pet => {
-                for (let key in filters) {
-                    if (pet[key] === undefined || pet[key] !== filters[key])
-                        return false;
+
+                const testingFilters = Array.from([filters])
+                const flexibleFilter = testingFilters[0]
+
+                if (flexibleFilter.animaltype === 'all' && flexibleFilter.age === 5)  return true
+
+                if (flexibleFilter.animaltype === 'all' && flexibleFilter.age !== 5) {
+
+                    delete flexibleFilter.animaltype
+                }
+
+                if (flexibleFilter.animaltype !== 'all' && flexibleFilter.age === 5) {
+
+                    delete flexibleFilter.age
+                }
+
+                for (let key in flexibleFilter) {
+
+                    if (pet[key] === undefined || pet[key] !== flexibleFilter[key]) return false;
+
                 }
                 return true;
+
             })
-
-
-            // const newFilteredPets = listOfPets.filter(pet => pet.animaltype === filters.animaltype && pet.age === filters.age )
-
-            // const newFilteredPets = listOfPets.filter((pet) => filters.type === 'all' && filters.age === 5 ?
-            //     pet  :  filters.type === 'all' && filters.age !== 5 ?
-            //         pet && pet.age === filters.age : pet.animaltype === filters.type && filters.age === 5 ?
-            //             pet.animaltype === filters.type:
-            //             pet.animaltype === filters.type && pet.age === filters.age);   //переписать этот бред. Прогнать все фильтры через цикл, в каждой итерации применить фильтр к listOfPets + добавить полученный кусок в итоговый массив. Повторить, пока фильтры не кончатся. Мозможно придется унифицировать схемы объекта баз данных с именованием фильтров
             setFilteredPets(newFilteredPets);
         }
     }
@@ -106,8 +115,9 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                         <label>1-5 years</label>
                         <input type="radio" id="4" value={4} name="filterAge"/>
                         <label>5+ years</label>
-                        <input type="radio" id="5" value={5} name="filterAge" defaultChecked={true} />
-                        <label>any age</label>
+                        <input type="radio" id="5" value={5} name="filterAge"/>
+                        <label>Any age</label>
+
                     </form>
 
 
