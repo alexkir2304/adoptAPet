@@ -5,7 +5,7 @@ import PetCard from "../components/petCard.jsx";
 
 const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, setFilteredPets}) => {
 
-    const [filters, setFilters] = useState({name: '', type: 'all', age: 5});
+    const [filters, setFilters] = useState({animaltype: 'cat', age: 5});
     // const [filters, setFilters] = useState({});
     const [paginationIndex, setPaginationIndex] = useState(12);
     const [paginationSize, setPaginationSize] = useState(12)
@@ -14,13 +14,23 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
         if (session) {
 
-            // const newFilteredPets = listOfPets.filter((pet) => !filters ? pet : );
 
-            const newFilteredPets = listOfPets.filter((pet) => filters.type === 'all' && filters.age === 5 ?
-                pet  :  filters.type === 'all' && filters.age !== 5 ?
-                pet && pet.age === filters.age : pet.animaltype === filters.type && filters.age === 5 ?
-                        pet.animaltype === filters.type:
-                pet.animaltype === filters.type && pet.age === filters.age);   //переписать этот бред. Прогнать все фильтры через цикл, в каждой итерации применить фильтр к listOfPets + добавить полученный кусок в итоговый массив. Повторить, пока фильтры не кончатся. Мозможно придется унифицировать схемы объекта баз данных с именованием фильтров
+            const newFilteredPets = listOfPets.filter(pet => {
+                for (let key in filters) {
+                    if (pet[key] === undefined || pet[key] !== filters[key])
+                        return false;
+                }
+                return true;
+            })
+
+
+            // const newFilteredPets = listOfPets.filter(pet => pet.animaltype === filters.animaltype && pet.age === filters.age )
+
+            // const newFilteredPets = listOfPets.filter((pet) => filters.type === 'all' && filters.age === 5 ?
+            //     pet  :  filters.type === 'all' && filters.age !== 5 ?
+            //         pet && pet.age === filters.age : pet.animaltype === filters.type && filters.age === 5 ?
+            //             pet.animaltype === filters.type:
+            //             pet.animaltype === filters.type && pet.age === filters.age);   //переписать этот бред. Прогнать все фильтры через цикл, в каждой итерации применить фильтр к listOfPets + добавить полученный кусок в итоговый массив. Повторить, пока фильтры не кончатся. Мозможно придется унифицировать схемы объекта баз данных с именованием фильтров
             setFilteredPets(newFilteredPets);
         }
     }
@@ -73,7 +83,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                     <form action="">
                         <select onChange={(e) => {
                             setPaginationIndex(paginationSize)
-                            setFilters({...filters, type: e.target.value})
+                            setFilters({...filters, animaltype: e.target.value})
                         }}
                                 name="" id="">
                             <option value="" disabled={true} defaultChecked={true}>Chose a type</option>
@@ -113,7 +123,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
                     <div className='flex justify-start w-full gap-7'>
                         {filteredPets && filteredPets.map((pet, index) => index <= filteredPets.length/paginationSize ? <button key={pet.$id}
-                            onClick={(e) => setPaginationIndex((+e.target.innerHTML) * paginationSize)}>{index + 1}</button> : null)}
+                                                                                                                                onClick={(e) => setPaginationIndex((+e.target.innerHTML) * paginationSize)}>{index + 1}</button> : null)}
                     </div>
 
                 </div>
