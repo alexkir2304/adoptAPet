@@ -7,8 +7,9 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
     const [filters, setFilters] = useState({animaltype: 'all', age: 5});
     // const [filters, setFilters] = useState({});
-    const [paginationIndex, setPaginationIndex] = useState(12);
     const [paginationSize, setPaginationSize] = useState(12)
+    const [paginationIndex, setPaginationIndex] = useState(12);
+
 
     const filterAllPets = () => {
 
@@ -23,19 +24,15 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                 if (flexibleFilter.animaltype === 'all' && flexibleFilter.age === 5)  return true
 
                 if (flexibleFilter.animaltype === 'all' && flexibleFilter.age !== 5) {
-
                     delete flexibleFilter.animaltype
                 }
 
                 if (flexibleFilter.animaltype !== 'all' && flexibleFilter.age === 5) {
-
                     delete flexibleFilter.age
                 }
 
                 for (let key in flexibleFilter) {
-
                     if (pet[key] === undefined || pet[key] !== flexibleFilter[key]) return false;
-
                 }
                 return true;
 
@@ -84,10 +81,10 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                     Refine your search
                 </p>
             </div>
-            <div className='flex justify-center w-full h-[100vh]'>
+            <div className='flex justify-center w-full min-h-[100vh]'>
 
 
-                <div className='flex flex-col justify-start items-center w-1/4 '>
+                <div className='flex flex-col justify-start items-center w-1/4 gap-7'>
 
                     <form action="">
                         <select onChange={(e) => {
@@ -120,21 +117,39 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
                     </form>
 
+                    <p>Cards to show</p>
+
+                    <form action="">
+                        <select onChange={(e) => {
+                            setPaginationSize(+e.target.value)
+                            setPaginationIndex(+e.target.value)
+
+                        }}
+                                name="" id="">
+                            <option value="" disabled={true} defaultChecked={true}>Chose a type</option>
+                            <option value={12}>12</option>
+                            <option value={24}>24</option>
+                            <option value={36}>36</option>
+                        </select>
+                    </form>
+
 
                 </div>
 
                 <div className='flex flex-col justify-start items-start w-3/4 '>
                     <div className='flex  justify-start w-full flex-wrap'>
-                        {filteredPets && filteredPets.map((pet, index) => index < (paginationIndex) && index >= (paginationIndex -paginationSize) ?
+                        {filteredPets && filteredPets.map((pet, index) => index < (paginationIndex) && index >= (paginationIndex - paginationSize) ?
                             <PetCard key={pet.$id} pet={pet}
                                      name={pet.animalname}
                                      type={pet.animaltype} age={pet.age}/> : null)}
                     </div>
 
                     <div className='flex justify-start w-full gap-7'>
-                        {filteredPets && filteredPets.map((pet, index) => index <= filteredPets.length/paginationSize ? <button key={pet.$id}
-                                                                                                                                onClick={(e) => setPaginationIndex((+e.target.innerHTML) * paginationSize)}>{index + 1}</button> : null)}
+                        {filteredPets && filteredPets.map((pet, index) => index <= filteredPets.length / paginationSize ?
+                            <button key={pet.$id}
+                                    onClick={(e) => setPaginationIndex((+e.target.innerHTML) * paginationSize)}>{index + 1}</button> : null)}
                     </div>
+
 
                 </div>
 
