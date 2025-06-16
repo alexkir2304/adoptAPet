@@ -143,6 +143,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                                      imageData={pet.imageData}
                                      name={pet.animalname}
                                      type={pet.animaltype} age={pet.age}/> : null)}
+
                     </div>
 
                     <div className='flex justify-start w-full gap-7'>

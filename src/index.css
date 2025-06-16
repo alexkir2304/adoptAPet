@@ -4,3 +4,10 @@ html, body {
   background: #222222;
   color: #fff;
 }
+
+
+
+.pet__modal  {
+  background: rgba(0,0,0,0.7);
+
+}
