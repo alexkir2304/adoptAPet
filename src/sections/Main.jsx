@@ -140,6 +140,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                     <div className='flex  justify-start w-full flex-wrap'>
                         {filteredPets && filteredPets.map((pet, index) => index < (paginationIndex) && index >= (paginationIndex - paginationSize) ?
                             <PetCard key={pet.$id} pet={pet}
+                                     imageData={pet.imageData}
                                      name={pet.animalname}
                                      type={pet.animaltype} age={pet.age}/> : null)}
                     </div>

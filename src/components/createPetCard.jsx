@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {createAPetCard} from "../appwrite/database.js";
+import React, {useContext, useEffect, useState} from 'react';
+import {addNewPetImage, createAPetCard, getNewPetImage} from "../appwrite/database.js";
 import {AccountDataContext} from "../App.jsx";
 
 const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
@@ -8,14 +8,33 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
     const [newAnimalName, setNewAnimalName] = React.useState('');
     const [newAnimalType, setNewAnimalType] = React.useState('');
     const [newAge, setNewAge] = React.useState();
+    const [imageId, setImageId] = React.useState(null);
+    const [imageData, setImageData] = React.useState(null);
 
     const userData = useContext(AccountDataContext)
 
 
+    useEffect(() => {
+        getNewPetImage(imageId, setImageData)
+    }, [imageId])
+
     return (
         <div className="flex flex-col justify-center items-center w-full h-1/4 gap-8">
-            <div>
-                image section
+            <div className='flex flex-col justify-center items-center w-1/2'>
+                <img src={imageData} className='yourImgTag max-w-1/2'  alt=""/>
+                <input  onChange={ async (e) => {
+                     await addNewPetImage(imageId, setImageId, imageData, setImageData);
+
+                    // imageData ? getNewPetImage(fileId) : null;
+                }}  type="file" id="newPetImage" name="avatar" accept="image/png, image/jpeg"/>
+
+
+                <label htmlFor="avatar">Choose a profile picture:</label>
+
+                <button
+                 onClick={() => getNewPetImage(imageId, setImageData)}>GET IMAGE URL</button>
+
+
             </div>
             <form action="">
                 <input onChange={event => setPhoneNumber(event.target.value)} type="text" placeholder="Phone Number"/>
@@ -37,7 +56,6 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
                 <label>5+ years</label>
             </form>
 
-
             <div className="flex flex-col justify-center items-center">
                 <span>testing...</span>
                 <span>{newAnimalName}</span>
@@ -46,7 +64,7 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
             </div>
 
             <button onClick={() => {
-                createAPetCard(phoneNumber,newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets, userData && userData.email )
+                createAPetCard(phoneNumber,newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets, userData && userData.email, imageId, imageData)
             }}>Create
                 Create a Pet Card
             </button>
