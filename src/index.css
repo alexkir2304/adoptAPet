@@ -1,13 +1,50 @@
 @import "tailwindcss";
 
 html, body {
-  background: #222222;
-  color: #fff;
+  @apply bg-main-bg;
 }
-
 
 
 .pet__modal  {
   background: rgba(0,0,0,0.7);
+}
 
+
+
+@theme {
+  --color-body-bg: #999;
+  --color-main-bg: #fff;
+  --color-nav-bg: #fff;
+  --color-nav-text: #fff;
+  --color-nav-button: #FFC1DA;
+  --color-nav-hoveredText: #FF90BB;
+  --color-blue-button: #007bff;
+  --color-red-button: #dc3545;
+
+}
+
+
+.main {
+  @apply  w-5/6 m-auto bg-nav-button ;
+}
+
+.navbar {
+  @apply fixed flex justify-around w-full  pl-30  p-5 bg-nav-bg text-black  shadow-lg shadow-black z-20;
+
+  .navbar__menu {
+    @apply flex justify-center items-center gap-25;
+  }
+
+  .navbar__buttons {
+    @apply flex justify-center items-center gap-10
+  }
+
+
+
+  .button {
+    @apply rounded-full border-2  p-5 text-white duration-200 ease-linear cursor-pointer;
+    &:hover {
+      @apply bg-nav-bg text-blue-button ;
+    }
+  }
 }

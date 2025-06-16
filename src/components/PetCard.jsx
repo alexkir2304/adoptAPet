@@ -52,7 +52,9 @@ const PetCard = ({name, type, age, imageData, pet}) => {
                         >
                     Adopt this pet
                 </button>
-                <PetModal disabled={disabled} type={type} age={age} pet={pet}  imageData={imageData} setDisabled={setDisabled} name={name} />
+
+                {!disabled && <PetModal disabled={disabled} type={type} age={age} pet={pet}  imageData={imageData} setDisabled={setDisabled} name={name} /> }
+
             </div>
         </div>
     );

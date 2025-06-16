@@ -41,7 +41,7 @@ const App = () => {
     return (
 
         <AccountDataContext value={accountData}>
-                <div>
+                <div className="relative">
                     {!isLoggedIn ? (
                         <LoginPage isloggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
                     ) : (

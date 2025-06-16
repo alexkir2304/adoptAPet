@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {createAPetCard, getAllPetCards} from "../appwrite/database.js";
 import CreatePetCard from "../components/createPetCard.jsx";
-import PetCard from "../components/petCard.jsx";
+import PetCard from "../components/PetCard.jsx";
 
 const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, setFilteredPets}) => {
 
@@ -49,7 +49,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
     return (
 
-        <main className="flex flex-col justify-center items-start mt-10 p-5 gap-7">
+        <main className="main flex flex-col justify-center items-start mt-10 p-5 gap-7">
 
             <div className='flex justify-start  h-[90vh] '>
                 <div className='flex flex-col justify-center items-center gap-7'>
@@ -76,7 +76,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
 
 
-            <div className='w-full'>
+            <div id='search' className='w-full'>
                 <p className='m-auto text-center'>
                     Refine your search
                 </p>
@@ -158,7 +158,9 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
             </div>
 
-            <div className="flex justify-center items-center w-full h-[100vh] ">
+
+
+            <div id='create' className="flex justify-center items-center w-full h-[100vh] ">
 
                 <CreatePetCard session={session} setSession={setSession} listOfPets={listOfPets}
                                setListOfPets={setListOfPets}/>
