@@ -17,6 +17,7 @@ const App = () => {
     const [filteredPets, setFilteredPets] = useState(null);
     const [accountData, setAccountData] = useState(null);
 
+
     const handleLogIn = async () => {
 
         try {
@@ -30,6 +31,7 @@ const App = () => {
         }   catch (error) {
             console.log(error);
         }
+
     }
 
 
@@ -41,10 +43,12 @@ const App = () => {
     return (
 
         <AccountDataContext value={accountData}>
-                <div className="relative">
+
+            <div>
+
                     {!isLoggedIn ? (
                         <LoginPage isloggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-                    ) : (
+                    ) :  (
                         <>
                             <NavBar setListOfPets={setListOfPets} setSession={setSession} setIsLoggedIn={setIsLoggedIn}/>
                             <Main session={session} setSession={setSession} listOfPets={listOfPets}
@@ -53,7 +57,9 @@ const App = () => {
                             <Footer/>
                         </>
                     )}
-                </div>
+
+            </div>
+
         </AccountDataContext>
 
     );

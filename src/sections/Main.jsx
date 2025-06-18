@@ -2,6 +2,7 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 import {createAPetCard, getAllPetCards} from "../appwrite/database.js";
 import CreatePetCard from "../components/createPetCard.jsx";
 import PetCard from "../components/PetCard.jsx";
+import Button from "../components/Button.jsx";
 
 const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, setFilteredPets}) => {
 
@@ -49,31 +50,36 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
     return (
 
-        <main className="main flex flex-col justify-center items-start mt-10 p-5 gap-7">
+        <main className="main ">
 
-            <div className='flex justify-start  h-[90vh] '>
-                <div className='flex flex-col justify-center items-center gap-7'>
-                    <span>
-                        Your hearts
+            <div className='header relative flex justify-start  h-[90vh] '>
+                <div className="headerGradient absolute w-full">
+
+                </div>
+                <div className='headerText flex flex-col justify-center items-start w-1/2 gap-7 ml-15'>
+                    <span className='text-6xl text-blue-button font-bold'>
+                        YOUR HEARTS
                     </span>
-                    <span>
-                        save lifes
+                    <span className='text-9xl text-red-button font-bold'>
+                        SAVE LIVES
                     </span>
-                    <span>
-                        some text about how good getting pets is
+                    <span className='text-3xl text-blue-button mb-10'>
+                        Bring more happiness to your home <br/>
+                        It will keep you smile forever.
                     </span>
-                    <button>
-                        asdasdas
-                    </button>
-                    <button>
-                        FIND OWNERS
-                    </button>
-                    <button>
-                        MAKE A DONATION
-                    </button>
+
+
+                    <a href={"#search"} className='w-1/2'>
+                        <Button><span className='text-2xl'>ADOPT A PET</span> <span className='ml-20 text-4xl'>→</span></Button>
+                    </a>
+
+                    <a href={"#create"} >
+                        <Button color={'red'}><span className='text-2xl'>BRING YOUR PET</span> <span
+                            className='ml-20 text-4xl'>→</span></Button>
+                    </a>
+
                 </div>
             </div>
-
 
 
             <div id='search' className='w-full'>

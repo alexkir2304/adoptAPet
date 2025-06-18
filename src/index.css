@@ -1,50 +1,112 @@
 @import "tailwindcss";
+/*@import url('https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Coda:wght@400;800&family=Edu+NSW+ACT+Hand+Pre&family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&display=swap');*/
 
 html, body {
-  @apply bg-main-bg;
+    @apply bg-main-bg;
+    font-family: "Marcellus", serif;
+    font-weight: 400;
+    font-style: normal;
+    scroll-behavior: smooth;
 }
 
 
 .pet__modal  {
-  background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.7);
 }
 
 
 
 @theme {
-  --color-body-bg: #999;
-  --color-main-bg: #fff;
-  --color-nav-bg: #fff;
-  --color-nav-text: #fff;
-  --color-nav-button: #FFC1DA;
-  --color-nav-hoveredText: #FF90BB;
-  --color-blue-button: #007bff;
-  --color-red-button: #dc3545;
+    --color-body-bg: #999;
+    --color-main-bg: #fff;
+    --color-nav-bg: #fff;
+    --color-nav-text: #fff;
+    --color-nav-button: #FFC1DA;
+    --color-nav-hoveredText: #FF90BB;
+    --color-blue-button: #007bff;
+    --color-red-button: #dc3545;
 
 }
 
 
 .main {
-  @apply  w-5/6 m-auto bg-nav-button ;
+    @apply flex flex-col justify-center items-center gap-7 w-full bg-body-bg z-10;
+
+    .header {
+        @apply w-full z-10  ;
+        overflow: hidden;
+        background-image:  url("/images/mainImage.jpg") ;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right;
+
+        .headerGradient {
+            @apply w-full h-full  z-20;
+            background: linear-gradient(90deg, rgba(255,255,255,1), rgba(255,255,255,0.2) );
+            background-size: cover;
+        }
+
+        .headerText {
+            @apply z-30;
+        }
+
+
+    }
+
+
 }
 
 .navbar {
-  @apply fixed flex justify-around w-full  pl-30  p-5 bg-nav-bg text-black  shadow-lg shadow-black z-20;
+    @apply   relative flex justify-between w-full  pl-30  p-5 bg-nav-bg text-black   shadow-black z-20;
+    box-shadow:10px 10px 10px  rgba(0, 0, 0, 0.2);
 
-  .navbar__menu {
-    @apply flex justify-center items-center gap-25;
-  }
-
-  .navbar__buttons {
-    @apply flex justify-center items-center gap-10
-  }
-
-
-
-  .button {
-    @apply rounded-full border-2  p-5 text-white duration-200 ease-linear cursor-pointer;
-    &:hover {
-      @apply bg-nav-bg text-blue-button ;
+    .navbar__menu {
+        @apply  justify-around items-center w-1/2 hidden text-[1.2rem] lg:flex;
     }
-  }
+
+    .navbar__buttons {
+        @apply flex flex-col lg:flex-row justify-end items-center  w-1/2 gap-5
+    }
+
+    .navbar__menu--mobile {
+        @apply flex flex-col h-full justify-between  lg:hidden text-[1.2rem];
+
+        .nav__menu--mobile--button {
+            @apply relative;
+            .nav__menu--mobile--button--content {
+                @apply  flex-col justify-around  absolute  hidden gap-3 top-15;
+            }
+        }
+    }
+
+
+
+
+
 }
+
+.navbar__scrolled {
+    @apply fixed top-0 opacity-90;
+}
+
+
+.redButton {
+    @apply rounded-full border-2 bg-red-button border-red-button p-3 text-white duration-150 ease-linear cursor-pointer;
+    &:hover {
+        @apply bg-nav-bg text-red-button ;
+    }
+}
+
+.blueButton {
+    @apply rounded-full border-2 bg-blue-button border-blue-button p-3 text-white duration-150 ease-linear cursor-pointer;
+    &:hover {
+        @apply bg-nav-bg text-blue-button ;
+    }
+}
+.logOutButton {
+    @apply rounded-full border-2 bg-nav-bg border-red-button p-3 text-red-button duration-150 ease-linear cursor-pointer;
+    &:hover {
+        @apply  bg-red-button  text-white ;
+    }
+}
+
