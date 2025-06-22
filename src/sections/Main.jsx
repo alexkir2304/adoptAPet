@@ -84,13 +84,13 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
             <div  id='search' className='flex flex-col w-full justify-start items-center '>
                 <div  className='w-full'>
-                    <p className='m-auto text-center text-4xl font-bold '>
+                    <p className=' text-center text-4xl text-blue-button font-bold mt-10'>
                         Refine your search
                     </p>
                 </div>
 
                 <div className='flex  w-[90%] justify-start items-start ml-20 mr-20 mt-5'>
-                    <div className='flex justify-center w-1/4 min-h-[100vh]'>
+                    <div className='flex justify-center w-1/3 md:w-1/4 min-h-[100vh]'>
 
                         <div className='flex flex-col justify-start items-center w-full gap-7 mt-5'>
 
@@ -139,7 +139,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
 
                             <form action=""
-                                  className='justify-center w-3/4'
+                                  className='justify-center w-2/3 md:w-3/4'
                             >
                                 <p className='text-center'>Cards to show</p>
                                 <select onChange={(e) => {
@@ -160,15 +160,18 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
                     </div>
 
-
                     <div className='flex flex-col justify-start items-start w-3/4 '>
                         <div className='flex  justify-start w-full flex-wrap'>
                             {filteredPets && filteredPets.map((pet, index) => index < (paginationIndex) && index >= (paginationIndex - paginationSize) ?
-                                <PetCard key={pet.$id} pet={pet}
+                                <PetCard key={pet.$id}
+                                         pet={pet}
                                          imageData={pet.imageData}
                                          name={pet.animalname}
-                                         type={pet.animaltype} age={pet.age}/> : null)}
+                                         type={pet.animaltype}
+                                         animaldescription={pet.animaldescription}
+                                         age={pet.age}
 
+                                /> : null)}
                         </div>
 
                         <div className='flex justify-start w-full gap-7'>
@@ -176,22 +179,17 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                                 <a href={'#search'} key={pet.$id}
                                         onClick={(e) => setPaginationIndex((+e.target.innerHTML) * paginationSize)}>{index + 1}</a> : null)}
                         </div>
-
-
                     </div>
-
-
                 </div>
             </div>
 
 
-            <div id='create' className="flex justify-center items-center w-full h-[100vh] ">
+            <div id='create' className='w-full'>
 
                 <CreatePetCard session={session} setSession={setSession} listOfPets={listOfPets}
                                setListOfPets={setListOfPets}/>
 
             </div>
-
         </main>
 
     )
