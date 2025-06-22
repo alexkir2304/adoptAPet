@@ -5,8 +5,9 @@ import {AccountDataContext} from "../App.jsx";
 const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
 
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [newAnimalName, setNewAnimalName] = React.useState('');
-    const [newAnimalType, setNewAnimalType] = React.useState('');
+    const [newAnimalName, setNewAnimalName] = useState('');
+    const [newAnimalType, setNewAnimalType] = useState('');
+    const [animaldescription, setAnimaldescription] = useState('');
     const [newAge, setNewAge] = React.useState();
     const [imageId, setImageId] = React.useState(null);
     const [imageData, setImageData] = React.useState(null);
@@ -39,8 +40,9 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
             <form action="">
                 <input onChange={event => setPhoneNumber(event.target.value)} type="text" placeholder="Phone Number"/>
                 <input onChange={event => setNewAnimalName(event.target.value)} type="text" placeholder="Animal Name"/>
-                <select onChange={(e) => setNewAnimalType(e.target.value)} name="" id="" >
-                    <option value="" >Chose a type</option>
+                <input onChange={event => setAnimaldescription(event.target.value)} type="text" placeholder="Pet description"/>
+                <select onChange={(e) => setNewAnimalType(e.target.value)} name="" id="">
+                    <option value="">Chose a type</option>
                     <option value="cat">Cat</option>
                     <option value="dog">Dog</option>
                 </select>
@@ -64,7 +66,7 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
             </div>
 
             <button onClick={() => {
-                createAPetCard(phoneNumber,newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets, userData && userData.email, imageId, imageData)
+                createAPetCard(phoneNumber,newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets, userData && userData.email, imageId, imageData, animaldescription)
             }}>Create
                 Create a Pet Card
             </button>

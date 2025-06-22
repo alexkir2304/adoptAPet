@@ -29,10 +29,11 @@ const PetCard = ({name, type, age, imageData, pet}) => {
 
 
     return (
-        <div className="w-1/4">
-            <div className="flex flex-col m-4 items-center gap-4 border-3 relative">
-                <div>
-                    <img src={imageData} alt=""/>
+        <div className="petCardWrapper ">
+            <div className="petCard relative">
+                <div className='w-full h-[60%] overflow-hidden rounded'
+                   >
+                    <img src={imageData} alt="" className='w-full'/>
                 </div>
                 <span>
                     {name}

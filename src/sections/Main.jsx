@@ -82,88 +82,107 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
             </div>
 
 
-            <div id='search' className='w-full'>
-                <p className='m-auto text-center'>
-                    Refine your search
-                </p>
-            </div>
-            <div className='flex justify-center w-full min-h-[100vh]'>
-
-
-                <div className='flex flex-col justify-start items-center w-1/4 gap-7'>
-
-                    <form action="">
-                        <select onChange={(e) => {
-                            setPaginationIndex(paginationSize)
-                            setFilters({...filters, animaltype: e.target.value})
-                        }}
-                                name="" id="">
-                            <option value="" disabled={true} defaultChecked={true}>Chose a type</option>
-                            <option value="all">All</option>
-                            <option value="cat">Cat</option>
-                            <option value="dog">Dog</option>
-                        </select>
-                    </form>
-
-                    <form name="filterAge" onChange={(e) => {
-                        setPaginationIndex(paginationSize)
-                        setFilters({...filters, age: +e.target.value})
-                    }} action=""
-                          className='flex flex-col justify-center items-center'>
-                        <input type="radio" id="1" value={1} name="filterAge"/>
-                        <label>0-6 months</label>
-                        <input type="radio" id="2" value={2} name="filterAge"/>
-                        <label>7-12 months</label>
-                        <input type="radio" id="3" value={3} name="filterAge"/>
-                        <label>1-5 years</label>
-                        <input type="radio" id="4" value={4} name="filterAge"/>
-                        <label>5+ years</label>
-                        <input type="radio" id="5" value={5} name="filterAge"/>
-                        <label>Any age</label>
-
-                    </form>
-
-                    <p>Cards to show</p>
-
-                    <form action="">
-                        <select onChange={(e) => {
-                            setPaginationSize(+e.target.value)
-                            setPaginationIndex(+e.target.value)
-
-                        }}
-                                name="" id="">
-                            <option value="" disabled={true} defaultChecked={true}>Chose a type</option>
-                            <option value={12}>12</option>
-                            <option value={24}>24</option>
-                            <option value={36}>36</option>
-                        </select>
-                    </form>
-
-
+            <div  id='search' className='flex flex-col w-full justify-start items-center '>
+                <div  className='w-full'>
+                    <p className='m-auto text-center text-4xl font-bold '>
+                        Refine your search
+                    </p>
                 </div>
 
-                <div className='flex flex-col justify-start items-start w-3/4 '>
-                    <div className='flex  justify-start w-full flex-wrap'>
-                        {filteredPets && filteredPets.map((pet, index) => index < (paginationIndex) && index >= (paginationIndex - paginationSize) ?
-                            <PetCard key={pet.$id} pet={pet}
-                                     imageData={pet.imageData}
-                                     name={pet.animalname}
-                                     type={pet.animaltype} age={pet.age}/> : null)}
+                <div className='flex  w-[90%] justify-start items-start ml-20 mr-20 mt-5'>
+                    <div className='flex justify-center w-1/4 min-h-[100vh]'>
+
+                        <div className='flex flex-col justify-start items-center w-full gap-7 mt-5'>
+
+                            <form action="" className=' w-3/4'>
+                                <select onChange={(e) => {
+                                    setPaginationIndex(paginationSize)
+                                    setFilters({...filters, animaltype: e.target.value})
+                                }}
+                                        className='main__filters--type'
+                                        name='mainFilter'
+                                        >
+                                    <option value="" disabled={true} defaultChecked={true} name='mainFilter'>Chose a type</option>
+                                    <option value="all" name='mainFilter'>All</option>
+                                    <option value="cat" name='mainFilter'>Cat</option>
+                                    <option value="dog" name='mainFilter'>Dog</option>
+                                </select>
+                            </form>
+
+                            <form name="filterAge" onChange={(e) => {
+                                setPaginationIndex(paginationSize)
+                                setFilters({...filters, age: +e.target.value})
+                            }} action=""
+                                  className='main__filters--age '>
+                                <div className="main__filters--ageItem">
+                                    <input type="radio" id="1" value={1} name="filterAge"/>
+                                    <label>0-6 months</label>
+                                </div>
+                                <div className="main__filters--ageItem">
+                                    <input type="radio" id="2" value={2} name="filterAge"/>
+                                    <label>7-12 months</label>
+                                </div>
+                                <div className="main__filters--ageItem">
+                                    <input type="radio" id="3" value={3} name="filterAge"/>
+                                    <label>1-5 years</label>
+                                </div>
+                                <div className="main__filters--ageItem">
+                                    <input type="radio" id="4" value={4} name="filterAge"/>
+                                    <label>5+ years</label>
+                                </div>
+                                <div className="main__filters--ageItem">
+                                    <input type="radio" id="5" value={5} name="filterAge"/>
+                                    <label>Any age</label>
+                                </div>
+
+                            </form>
+
+
+                            <form action=""
+                                  className='justify-center w-3/4'
+                            >
+                                <p className='text-center'>Cards to show</p>
+                                <select onChange={(e) => {
+                                    setPaginationSize(+e.target.value)
+                                    setPaginationIndex(+e.target.value)
+                                }}
+                                        className='main__filters--type'
+                                        >
+                                    <option value="" disabled={true} defaultChecked={true}>Chose a type</option>
+                                    <option value={12}>12</option>
+                                    <option value={24}>24</option>
+                                    <option value={36}>36</option>
+                                </select>
+                            </form>
+
+
+                        </div>
 
                     </div>
 
-                    <div className='flex justify-start w-full gap-7'>
-                        {filteredPets && filteredPets.map((pet, index) => index <= filteredPets.length / paginationSize ?
-                            <button key={pet.$id}
-                                    onClick={(e) => setPaginationIndex((+e.target.innerHTML) * paginationSize)}>{index + 1}</button> : null)}
+
+                    <div className='flex flex-col justify-start items-start w-3/4 '>
+                        <div className='flex  justify-start w-full flex-wrap'>
+                            {filteredPets && filteredPets.map((pet, index) => index < (paginationIndex) && index >= (paginationIndex - paginationSize) ?
+                                <PetCard key={pet.$id} pet={pet}
+                                         imageData={pet.imageData}
+                                         name={pet.animalname}
+                                         type={pet.animaltype} age={pet.age}/> : null)}
+
+                        </div>
+
+                        <div className='flex justify-start w-full gap-7'>
+                            {filteredPets && filteredPets.map((pet, index) => index <= filteredPets.length / paginationSize ?
+                                <a href={'#search'} key={pet.$id}
+                                        onClick={(e) => setPaginationIndex((+e.target.innerHTML) * paginationSize)}>{index + 1}</a> : null)}
+                        </div>
+
+
                     </div>
 
 
                 </div>
-
-
             </div>
-
 
 
             <div id='create' className="flex justify-center items-center w-full h-[100vh] ">

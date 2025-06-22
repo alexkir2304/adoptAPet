@@ -2,7 +2,7 @@ import {Databases, ID, Query} from "appwrite";
 import {client, database, storage} from "./client.js";
 
 
-export const createAPetCard = async (phoneNumber, animalName, animalType, age, imageUrl, userId, listOfPets, setListOfPets, userEmail, imageId, imageData) => {
+export const createAPetCard = async (phoneNumber, animalName, animalType, age, imageUrl, userId, listOfPets, setListOfPets, userEmail, imageId, imageData, animaldescription) => {
 
     try {
         const newPet = await database.createDocument(
@@ -17,7 +17,8 @@ export const createAPetCard = async (phoneNumber, animalName, animalType, age, i
                 userId: userId,
                 email: userEmail,
                 imageId: imageId,
-                imageData: imageData
+                imageData: imageData,
+                animaldescription: animaldescription,
             }
         );
         const response = await newPet;
