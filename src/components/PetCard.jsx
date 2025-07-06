@@ -6,7 +6,7 @@ const PetModal = ({disabled, name, type, age, imageData, pet, setDisabled,animal
         <div onClick={() => {
             document.body.style.overflow = 'auto';
             setDisabled(true)
-        }} className={`${disabled ? 'hidden' : 'block'} pet__modal flex  justify-center items-center    fixed top-0 bottom-0 left-0 right-0 h-[100vh] z-20 backdrop-blur-[3px]`}>
+        }} className={`${disabled ? 'hidden' : 'block'} pet__modal flex  justify-center items-center  fixed top-0 bottom-0 left-0 right-0 h-[100vh] w-full z-9999 `}>
 
             <div onClick={e => e.stopPropagation()}
                  className='pet__modal--content'>
@@ -18,7 +18,7 @@ const PetModal = ({disabled, name, type, age, imageData, pet, setDisabled,animal
                 <div className='pet__modal--content--text '>
                     <h1>Hi, my name is <span className='text-lightBlue'>{name}</span></h1>
                     <span>{animaldescription}</span>
-                    <span>{age}</span>
+                    <span>{age === 1 ? '0-6 months' : age === 2 ? '7-12 months' : age === 3 ? '1-5 years' : age === 4 ? '5+ years' : null}</span>
                     <span>If you are interested in adopting this pet, my contacts are: <br/> Phone: {pet.phonenumber} <br/> Email: {pet.email}</span>
                 </div>
             </div>
@@ -27,6 +27,13 @@ const PetModal = ({disabled, name, type, age, imageData, pet, setDisabled,animal
     );
 };
 
+const TestModal = ({disabled}) => {
+    return (
+        <div className='fixed top-0 bot-0 right-0 left-0 border-7 border-red-900'>
+            TESTMODAL
+        </div>
+    )
+}
 
 const PetCard = ({name, type, age, imageData, pet, animaldescription}) => {
 
@@ -34,7 +41,7 @@ const PetCard = ({name, type, age, imageData, pet, animaldescription}) => {
 
     return (
 
-        <div className="petCardWrapper ">
+        <div className="petCardWrapper">
             <div className="petCard  text-nowrap">
 
                 <div className='w-full h-[60%] overflow-hidden rounded'
@@ -43,14 +50,14 @@ const PetCard = ({name, type, age, imageData, pet, animaldescription}) => {
                 </div>
 
                 <div className='flex flex-col justify-center items-center'>
-                        <span className='text-nowrap'>
-                        Hi! My name is <span className='text-blue-button font-bold'>{name}</span>
+                    <span className='text-center'>
+                        Hi! My name is <br/> <span className='text-blue-button font-bold'>{name}</span>
                     </span>
                     <span>
                         I am a <span className='text-blue-button font-bold'>{type}</span>
                     </span>
                     <span>
-                        My age is about <span className='text-blue-button font-bold'>{age}</span>
+                        My age is  <span className='text-blue-button font-bold'>{age === 1 ? '0-6 months' : age === 2 ? '7-12 months' : age === 3 ? '1-5 years' : age === 4 ? '5+ years' : null}</span>
                     </span>
                     <button onClick={() => {
                         document.body.style.overflow = 'hidden';
@@ -62,6 +69,7 @@ const PetCard = ({name, type, age, imageData, pet, animaldescription}) => {
                     </button>
                 </div>
 
+                {/*<TestModal/>*/}
 
                 {!disabled && <PetModal disabled={disabled} type={type} age={age} pet={pet} imageData={imageData}
                                         setDisabled={setDisabled} name={name} animaldescription={animaldescription}/>}

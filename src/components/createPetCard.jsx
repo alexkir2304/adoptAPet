@@ -20,7 +20,7 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
     }, [imageId])
 
     return (
-        <div className="createPetCardWrapper">
+        <div className="createPetCardWrapper ">
             <div className="createPetCard">
 
                 <div className='createPetCard__headerSection'>
@@ -82,7 +82,7 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
 
                     <button className='createPetCard__formSection--submit' onClick={() => {
                         createAPetCard(phoneNumber, newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets, userData && userData.email, imageId, imageData, animaldescription)
-                    }}>Create
+                    }}>
                         Create a Pet Card
                     </button>
                 </div>
