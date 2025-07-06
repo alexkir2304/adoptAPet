@@ -9,11 +9,13 @@ const NavBar = ({setIsLoggedIn, setSession, setListOfPets}) => {
     useEffect(() => {
 
         const el = document.getElementsByClassName("navbar");
+        const main = document.getElementsByClassName("main")
         window.onscroll = () => {
             if (window.scrollY > 300) {
                 return
             }            console.log('scrolled');
             window.scrollY > 100 ? el[0].classList.add("navbar__scrolled") : el[0].classList.remove("navbar__scrolled");
+            window.scrollY > 100 ? main[0].classList.add("main__scrolled") : main[0].classList.remove("main__scrolled");
         }
 
     },[])

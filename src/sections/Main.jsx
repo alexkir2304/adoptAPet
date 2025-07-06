@@ -16,7 +16,6 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
         if (session) {
 
-
             const newFilteredPets = listOfPets.filter(pet => {
 
                 const testingFilters = Array.from([filters])
@@ -50,7 +49,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
     return (
 
-        <main className="main ">
+        <main className="main">
 
             <div className='header relative flex justify-start  h-[90vh] '>
                 <div className="headerGradient absolute w-full">
