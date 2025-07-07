@@ -6,7 +6,7 @@ const PetModal = ({disabled, name, type, age, imageData, pet, setDisabled,animal
         <div onClick={() => {
             document.body.style.overflow = 'auto';
             setDisabled(true)
-        }} className={`${disabled ? 'hidden' : 'block'} pet__modal flex  justify-center items-center  fixed top-0 bottom-0 left-0 right-0 h-[100vh] w-full z-9999 `}>
+        }} className={`${disabled ? 'hidden' : 'block'} pet__modal flex  justify-center items-center  fixed top-0 bottom-0 left-0 right-0 h-[100vh] w-full z-9999 backdrop-blur-[3px]`}>
 
             <div onClick={e => e.stopPropagation()}
                  className='pet__modal--content'>
@@ -19,6 +19,7 @@ const PetModal = ({disabled, name, type, age, imageData, pet, setDisabled,animal
                     <h1>Hi, my name is <span className='text-lightBlue'>{name}</span></h1>
                     <span>{animaldescription}</span>
                     <span>{age === 1 ? '0-6 months' : age === 2 ? '7-12 months' : age === 3 ? '1-5 years' : age === 4 ? '5+ years' : null}</span>
+                    <span>{pet.gender}</span>
                     <span>If you are interested in adopting this pet, my contacts are: <br/> Phone: {pet.phonenumber} <br/> Email: {pet.email}</span>
                 </div>
             </div>
@@ -26,14 +27,6 @@ const PetModal = ({disabled, name, type, age, imageData, pet, setDisabled,animal
 
     );
 };
-
-const TestModal = ({disabled}) => {
-    return (
-        <div className='fixed top-0 bot-0 right-0 left-0 border-7 border-red-900'>
-            TESTMODAL
-        </div>
-    )
-}
 
 const PetCard = ({name, type, age, imageData, pet, animaldescription}) => {
 
@@ -68,8 +61,6 @@ const PetCard = ({name, type, age, imageData, pet, animaldescription}) => {
                         Learn More →
                     </button>
                 </div>
-
-                {/*<TestModal/>*/}
 
                 {!disabled && <PetModal disabled={disabled} type={type} age={age} pet={pet} imageData={imageData}
                                         setDisabled={setDisabled} name={name} animaldescription={animaldescription}/>}

@@ -2,18 +2,18 @@ import React, {useContext, useEffect, useState} from 'react';
 import {addNewPetImage, createAPetCard, getNewPetImage} from "../appwrite/database.js";
 import {AccountDataContext} from "../App.jsx";
 
-const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
+const CreatePetCard = ({isLoggedIn, session, listOfPets, setListOfPets}) => {
 
     const [phoneNumber, setPhoneNumber] = useState('');
     const [newAnimalName, setNewAnimalName] = useState('');
     const [newAnimalType, setNewAnimalType] = useState('');
     const [animaldescription, setAnimaldescription] = useState('');
-    const [newAge, setNewAge] = React.useState();
-    const [imageId, setImageId] = React.useState(null);
-    const [imageData, setImageData] = React.useState(null);
+    const [newAge, setNewAge] = useState();
+    const [imageId, setImageId] = useState(null);
+    const [imageData, setImageData] = useState(null);
+    const [gender, setGender] = useState('');
 
     const userData = useContext(AccountDataContext)
-
 
     useEffect(() => {
         getNewPetImage(imageId, setImageData)
@@ -26,7 +26,8 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
                 <div className='createPetCard__headerSection'>
                     <h1>
                         Can't keep a pet? Bring it to us! <br/>
-                        We take care of it and find new owners
+                        We take care of it and find new owners <br/>
+                        <span className='text-2xl font-[1.2] text-red-button'>*requires authentithication</span>
                     </h1>
                 </div>
 
@@ -49,7 +50,7 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
                         <input onChange={event => setNewAnimalName(event.target.value)} type="text"
                                placeholder="Animal Name"/>
                         <textarea onChange={event => setAnimaldescription(event.target.value)}
-                               placeholder="Pet description"/>
+                                  placeholder="Pet description"/>
                         <input onChange={event => setPhoneNumber(event.target.value)} type="text"
                                placeholder="Phone Number"/>
 
@@ -59,8 +60,16 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
                             <option value="cat">Cat</option>
                             <option value="dog">Dog</option>
                         </select>
+
+                        <select onChange={(e) => setGender(e.target.value)} name="" id="">
+                            <option value="">Chose a gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
                     </form>
-                    <form className='createPetCard__formSection--age' onChange={(e) => setNewAge(+e.target.value)} action="">
+
+                    <form className='createPetCard__formSection--age' onChange={(e) => setNewAge(+e.target.value)}
+                          action="">
 
                         <div className="createPetCard__formSection--age--item">
                             <input type="radio" id="1" value={1} name="filterAge" defaultChecked={true}/>
@@ -81,16 +90,16 @@ const CreatePetCard = ({session, listOfPets, setListOfPets}) => {
                     </form>
 
                     <button className='createPetCard__formSection--submit' onClick={() => {
-                        createAPetCard(phoneNumber, newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets, userData && userData.email, imageId, imageData, animaldescription)
+                        if (!isLoggedIn) {
+                            alert('Sign-in, please');
+                        } else {
+                            createAPetCard(phoneNumber, newAnimalName, newAnimalType, newAge, '', session.userId, listOfPets, setListOfPets, userData && userData.email, imageId, imageData, animaldescription, isLoggedIn, gender)
+                        }
                     }}>
                         Create a Pet Card
                     </button>
                 </div>
-
-
             </div>
-
-
         </div>
     );
 };

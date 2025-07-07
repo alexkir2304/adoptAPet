@@ -1,8 +1,5 @@
 import React from 'react';
 import {logInWithGoogle, logOut} from "../appwrite/auth.js";
-import {account} from "../appwrite/client.js";
-
-
 
 const LoginPage = ({setIsLoggedIn}) => {
     return (

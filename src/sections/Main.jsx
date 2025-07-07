@@ -1,61 +1,55 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {createAPetCard, getAllPetCards} from "../appwrite/database.js";
-import CreatePetCard from "../components/createPetCard.jsx";
+import CreatePetCard from "../components/CreatePetCard.jsx";
 import PetCard from "../components/PetCard.jsx";
 import Button from "../components/Button.jsx";
 
-const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, setFilteredPets}) => {
+const Main = ({isLoggedIn, session, setSession, listOfPets, setListOfPets, filteredPets, setFilteredPets}) => {
 
-    const [filters, setFilters] = useState({animaltype: 'all', age: 5});
-    // const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState({animaltype: 'all', age: 5, gender: 'all'});
     const [paginationSize, setPaginationSize] = useState(12)
     const [paginationIndex, setPaginationIndex] = useState(12);
 
-
     const filterAllPets = () => {
 
-        if (session) {
+        const newFilteredPets = listOfPets.filter(pet => {
 
-            const newFilteredPets = listOfPets.filter(pet => {
+            const testingFilters = Array.from([filters])
+            const flexibleFilter = testingFilters[0]
 
-                const testingFilters = Array.from([filters])
-                const flexibleFilter = testingFilters[0]
+            if (flexibleFilter.animaltype === 'all' && flexibleFilter.age === 5 && flexibleFilter.gender === 'all') return true
 
-                if (flexibleFilter.animaltype === 'all' && flexibleFilter.age === 5)  return true
+            if (flexibleFilter.animaltype === 'all' && flexibleFilter.age !== 5) {
+                delete flexibleFilter.animaltype
+            }
 
-                if (flexibleFilter.animaltype === 'all' && flexibleFilter.age !== 5) {
-                    delete flexibleFilter.animaltype
-                }
+            if (flexibleFilter.gender === 'all' && (flexibleFilter.animaltype !== 'all' || flexibleFilter.age !== 5 )) {
+                delete flexibleFilter.gender
+            }
 
-                if (flexibleFilter.animaltype !== 'all' && flexibleFilter.age === 5) {
-                    delete flexibleFilter.age
-                }
+            if (flexibleFilter.animaltype !== 'all' && flexibleFilter.age === 5) {
+                delete flexibleFilter.age
+            }
 
-                for (let key in flexibleFilter) {
-                    if (pet[key] === undefined || pet[key] !== flexibleFilter[key]) return false;
-                }
-                return true;
+            for (let key in flexibleFilter) {
+                if (pet[key] === undefined || pet[key] !== flexibleFilter[key]) return false;
+            }
+            return true;
 
-            })
-            setFilteredPets(newFilteredPets);
-        }
+        })
+        setFilteredPets(newFilteredPets);
     }
 
     useEffect(() => {
         filterAllPets();
-    }, [listOfPets, filters, paginationIndex, paginationSize]);
-
-
+    }, [isLoggedIn,listOfPets, filters, paginationIndex, paginationSize]);
 
     return (
 
         <main className="main">
 
-
             <div className='header relative flex justify-start  h-[90vh] '>
-                <div className="headerGradient absolute w-full">
-
-                </div>
+                <div className="headerGradient absolute w-full"></div>
                 <div className='headerText flex flex-col justify-center items-start w-1/2 gap-7 ml-15'>
                     <span className='text-6xl text-blue-button font-bold'>
                         YOUR HEARTS
@@ -67,7 +61,6 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                         Bring more happiness to your home <br/>
                         It will keep you smile forever.
                     </span>
-
 
                     <a href={"#search"} className='w-1/2'>
                         <Button><span className='text-2xl'>ADOPT A PET</span> <span className='ml-20 text-4xl'>→</span></Button>
@@ -83,6 +76,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
 
 
             <div id='search' className='flex flex-col w-full justify-start items-center '>
+
                 <div className='w-full'>
                     <p className=' text-center text-4xl text-blue-button font-bold mt-10'>
                         Refine your search
@@ -90,11 +84,9 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                 </div>
 
                 <div className='flex  w-[90%] justify-start items-start ml-20 mr-20 mt-5'>
-                    <div className='flex justify-center w-1/3 md:w-1/4 min-h-[100vh]'>
-
-                        <div className='flex flex-col justify-start items-center w-full gap-7 mt-5'>
-
-                            <form action="" className=' w-3/4'>
+                    <div className='flex justify-center w-1/3 md:w-1/4 '>
+                        <div className='flex flex-col  justify-start items-center w-full gap-7 mt-5'>
+                            <form action="" className=' w-3/4 flex flex-col gap-5'>
                                 <select onChange={(e) => {
                                     setPaginationIndex(paginationSize)
                                     setFilters({...filters, animaltype: e.target.value})
@@ -105,9 +97,24 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                                     <option value="" disabled={true} defaultChecked={true} name='mainFilter'>Chose a
                                         type
                                     </option>
-                                    <option value="all" name='mainFilter'>All</option>
+                                    <option value="all" name='mainFilter'>All types</option>
                                     <option value="cat" name='mainFilter'>Cat</option>
                                     <option value="dog" name='mainFilter'>Dog</option>
+                                </select>
+
+                                <select onChange={(e) => {
+                                    setPaginationIndex(paginationSize)
+                                    setFilters({...filters, gender: e.target.value})
+                                }}
+                                        className='main__filters--type'
+                                        name='mainFilter2'
+                                >
+                                    <option value="" disabled={true} defaultChecked={true} name='mainFilter'>Chose a
+                                        gender
+                                    </option>
+                                    <option value="all" name='mainFilter2'>All genders</option>
+                                    <option value="male" name='mainFilter2'>Male</option>
+                                    <option value="female" name='mainFilter2'>Female</option>
                                 </select>
                             </form>
 
@@ -133,12 +140,10 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                                     <label>5+ years</label>
                                 </div>
                                 <div className="main__filters--ageItem">
-                                    <input type="radio" id="5" value={5} name="filterAge"/>
+                                    <input type="radio" id="5" value={5} name="filterAge" defaultChecked={true}/>
                                     <label>Any age</label>
                                 </div>
-
                             </form>
-
 
                             <form action=""
                                   className='justify-center w-2/3 md:w-3/4'
@@ -156,10 +161,7 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                                     <option value={36}>36</option>
                                 </select>
                             </form>
-
-
                         </div>
-
                     </div>
 
                     <div className='flex flex-col justify-start items-start w-3/4 '>
@@ -187,12 +189,13 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                 </div>
             </div>
 
-            <div className="information flex flex-col">
-                <div className="information__howItWorks flex ">
-                    <div className="flex justify-center items-center w-1/2 bg-blue-button text-white text-6xl">
+            <div id='information' className="information flex flex-col">
+                <div className="information__howItWorks flex flex-col lg:flex-row">
+                    <div
+                        className="flex justify-center items-center text-center w-full h-[30vh] lg:h-auto lg:w-1/2 bg-blue-button text-white text-6xl">
                         How Adoption Works
                     </div>
-                    <div className="flex flex-col p-10 w-1/2 ">
+                    <div className="flex flex-col w-full lg:w-1/2 p-10 w-1/2 ">
                         <h1>
                             Your adoption: as unique as you and your pet
                         </h1>
@@ -225,36 +228,53 @@ const Main = ({session, setSession, listOfPets, setListOfPets, filteredPets, set
                             your area may have a partner that does same-day adoptions. </p>
                     </div>
                 </div>
-                <div className="information__fostering flex ">
-                    <div className="flex flex-col p-10 w-1/2 ">
+                <div className="information__fostering flex flex-col  lg:flex-row ">
+                    <div className="flex flex-col order-1 lg:order-0 w-full lg:w-1/2 p-10 w-1/2  ">
                         <h1>
                             Before fostering
                         </h1>
-                        <p>Involve The Whole Family: Involve the whole family in the fostering conversation. Will kids be responsible for feeding the new 'roommate'? How will your family tolerate future adoption? Do your current pets tolerate other animals ok? The new pet is a big change for everyone, so allow everyone to weigh in, and suggest how they would like to help care for the pet. </p>
-                        <p>Pet-Proof Your Home: Adjusting to a new environment can be a daunting task for new pets. Many animals can jump onto high surfaces or squeeze into the smallest of spaces. To protect foster pets in a new environment and to safeguard your belongings, it's recommended to animal-proof your entire house. Pay attention to any small or dangerous objects, such as pins, needles, paper clips, nails, staples, thread, string, rubber bands, caustic/toxic chemicals, mothballs, plants, and any other items that are potentially dangerous. We also recommend performing a check at pet-eye-level (on hands-and-knees or squatting) to ensure you aren't missing anything. </p>
-                        <p>Other pet-proofing tips: Animals are attracted to electrical cords, TV cords, telephone cords, and curtains. These items should all be blocked so they can’t get at them.  </p>
-                        <h1>After becoming a foster  </h1>
-                        <p><span>Vaccination and Treatment:</span> Make sure your pet is up-to-date on vaccinations. Many infectious diseases for pets are preventable through vaccinations, including Canine Influenza, Leptospirosis (which can be transmitted to people), and Lyme. The cost of prevention is far less than the cost of the treatment and helps to keep pets healthy and free from disease. Speak with your foster coordinator to find out about foster pet requirements. </p>
-                        <p><span>Groom Your Pet: </span>  It is recommended to professionally groom your pet every four to six weeks. Between salon appointments, use at-home grooming tools such as a cat or dog-specific toothbrush and specially formulated toothpaste, a nice rubber brush to help de-shed and invigorate the skin and coat, ear cleaner and cotton balls to gently cleanse the ears, and wipes for cleaning around the face, mouth, and eyes.  </p>
+                        <p>Involve The Whole Family: Involve the whole family in the fostering conversation. Will kids
+                            be responsible for feeding the new 'roommate'? How will your family tolerate future
+                            adoption? Do your current pets tolerate other animals ok? The new pet is a big change for
+                            everyone, so allow everyone to weigh in, and suggest how they would like to help care for
+                            the pet. </p>
+                        <p>Pet-Proof Your Home: Adjusting to a new environment can be a daunting task for new pets. Many
+                            animals can jump onto high surfaces or squeeze into the smallest of spaces. To protect
+                            foster pets in a new environment and to safeguard your belongings, it's recommended to
+                            animal-proof your entire house. Pay attention to any small or dangerous objects, such as
+                            pins, needles, paper clips, nails, staples, thread, string, rubber bands, caustic/toxic
+                            chemicals, mothballs, plants, and any other items that are potentially dangerous. We also
+                            recommend performing a check at pet-eye-level (on hands-and-knees or squatting) to ensure
+                            you aren't missing anything. </p>
+                        <p>Other pet-proofing tips: Animals are attracted to electrical cords, TV cords, telephone
+                            cords, and curtains. These items should all be blocked so they can’t get at them. </p>
+                        <h1>After becoming a foster </h1>
+                        <p><span>Vaccination and Treatment:</span> Make sure your pet is up-to-date on vaccinations.
+                            Many infectious diseases for pets are preventable through vaccinations, including Canine
+                            Influenza, Leptospirosis (which can be transmitted to people), and Lyme. The cost of
+                            prevention is far less than the cost of the treatment and helps to keep pets healthy and
+                            free from disease. Speak with your foster coordinator to find out about foster pet
+                            requirements. </p>
+                        <p><span>Groom Your Pet: </span> It is recommended to professionally groom your pet every four
+                            to six weeks. Between salon appointments, use at-home grooming tools such as a cat or
+                            dog-specific toothbrush and specially formulated toothpaste, a nice rubber brush to help
+                            de-shed and invigorate the skin and coat, ear cleaner and cotton balls to gently cleanse the
+                            ears, and wipes for cleaning around the face, mouth, and eyes. </p>
 
                     </div>
-                    <div className="flex justify-center items-center w-1/2 bg-blue-button text-white text-6xl text-center">
+                    <div
+                        className="flex justify-center order-0 lg:order-1 items-center text-center w-full h-[30vh] lg:h-auto lg:w-1/2 bg-blue-button text-white text-6xl">
                         Tips for Fostering Your New Pet
                     </div>
                 </div>
-
-                <div id='create' className='w-full'>
-                    <CreatePetCard session={session} setSession={setSession} listOfPets={listOfPets}
-                                   setListOfPets={setListOfPets}/>
-                </div>
-
-
             </div>
 
+            <div id='create' className='w-full'>
+                <CreatePetCard session={session} setSession={setSession} listOfPets={listOfPets}
+                               setListOfPets={setListOfPets} isLoggedIn={isLoggedIn} />
+            </div>
         </main>
-
     )
-
 };
 
 export default Main;

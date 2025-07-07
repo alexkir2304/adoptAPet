@@ -1,33 +1,32 @@
 import React, {useEffect} from 'react';
-import {logOut} from "../appwrite/auth.js";
+import {logInWithGoogle, logOut} from "../appwrite/auth.js";
 import Button from "../components/Button.jsx";
 
-const NavBar = ({setIsLoggedIn, setSession, setListOfPets}) => {
+const NavBar = ({isLoggedIn, setIsLoggedIn, setSession, setListOfPets}) => {
 
     const handleLogOut = () => logOut(setIsLoggedIn, setSession, setListOfPets)
+    const handleLogIn = () => logInWithGoogle()
 
     useEffect(() => {
 
         const el = document.getElementsByClassName("navbar");
-        // const main = document.getElementsByClassName("main")
+        const main = document.getElementsByClassName("main")
         window.onscroll = () => {
             if (window.scrollY > 300) {
                 return
             }            console.log('scrolled');
             window.scrollY > 100 ? el[0].classList.add("navbar__scrolled") : el[0].classList.remove("navbar__scrolled");
-            // window.scrollY > 100 ? main[0].classList.add("main__scrolled") : main[0].classList.remove("main__scrolled");
+            window.scrollY > 100 ? main[0].classList.add("main__scrolled") : main[0].classList.remove("main__scrolled");
         }
-
     },[])
 
     return (
         <nav id='navbar' className='navbar'>
-
             <div className='navbar__menu'>
                 <a href={'#'}>HOME</a>
-                <a href={'#'}>ABOUT</a>
-                <a href={'#'}>DOCS</a>
-                <a href={'#'}>CONTACTS</a>
+                <a href={'#search'}>SEARCH</a>
+                <a href={'#information'}>DOCS</a>
+                <a href={'#contacts'}>CONTACTS</a>
             </div>
 
             <div className='navbar__menu--mobile'>
@@ -38,9 +37,9 @@ const NavBar = ({setIsLoggedIn, setSession, setListOfPets}) => {
                     <img src="/images/hamburger.svg" className='bg-white w-[3rem] h-[3rem]' alt="" />
                     <div className='nav__menu--mobile--button--content '>
                         <a href={'#'}>HOME</a>
-                        <a href={'#create'}>ABOUT</a>
-                        <a href="">DOCS</a>
-                        <a href="">CONTACTS</a>
+                        <a href={'#search'}>SEARCH</a>
+                        <a href={'#information'}>DOCS</a>
+                        <a href={'#contacts'}>CONTACTS</a>
                     </div>
                 </div>
             </div>
@@ -53,11 +52,17 @@ const NavBar = ({setIsLoggedIn, setSession, setListOfPets}) => {
                     <Button color={'red'}>BRING YOUR PET</Button>
                 </a>
 
-                <Button handleClick={handleLogOut} type={'logout'}>
-                    LOGOUT
-                </Button>
-            </div>
 
+                {!isLoggedIn? (
+                    <Button handleClick={handleLogIn} type={'logout'}>
+                        LOG IN
+                    </Button>
+                ) : (
+                    <Button handleClick={handleLogOut} type={'logout'}>
+                        LOG OUT
+                    </Button>
+                )}
+            </div>
         </nav>
     );
 };

@@ -17,7 +17,6 @@ const App = () => {
     const [filteredPets, setFilteredPets] = useState(null);
     const [accountData, setAccountData] = useState(null);
 
-
     const handleLogIn = async () => {
 
         try {
@@ -31,9 +30,7 @@ const App = () => {
         }   catch (error) {
             console.log(error);
         }
-
     }
-
 
     useEffect(() => {
         handleLogIn();
@@ -43,23 +40,13 @@ const App = () => {
     return (
 
         <AccountDataContext value={accountData}>
-
             <div>
-
-                    {!isLoggedIn ? (
-                        <LoginPage isloggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-                    ) :  (
-                        <>
-                            <NavBar setListOfPets={setListOfPets} setSession={setSession} setIsLoggedIn={setIsLoggedIn}/>
-                            <Main session={session} setSession={setSession} listOfPets={listOfPets}
-                                  setListOfPets={setListOfPets} filteredPets={filteredPets}
-                                  setFilteredPets={setFilteredPets}/>
-                            <Footer/>
-                        </>
-                    )}
-
+                <NavBar setListOfPets={setListOfPets} setSession={setSession} setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+                <Main isLoggedIn={isLoggedIn} session={session} setSession={setSession} listOfPets={listOfPets}
+                      setListOfPets={setListOfPets} filteredPets={filteredPets}
+                      setFilteredPets={setFilteredPets}/>
+                <Footer/>
             </div>
-
         </AccountDataContext>
 
     );

@@ -1,8 +1,7 @@
 import {Databases, ID, Query} from "appwrite";
 import {client, database, storage} from "./client.js";
 
-
-export const createAPetCard = async (phoneNumber, animalName, animalType, age, imageUrl, userId, listOfPets, setListOfPets, userEmail, imageId, imageData, animaldescription) => {
+export const createAPetCard = async (phoneNumber, animalName, animalType, age, imageUrl, userId, listOfPets, setListOfPets, userEmail, imageId, imageData, animaldescription, isLoggedIn, gender) => {
 
     try {
         const newPet = await database.createDocument(
@@ -19,6 +18,7 @@ export const createAPetCard = async (phoneNumber, animalName, animalType, age, i
                 imageId: imageId,
                 imageData: imageData,
                 animaldescription: animaldescription,
+                gender: gender,
             }
         );
         const response = await newPet;
@@ -29,7 +29,6 @@ export const createAPetCard = async (phoneNumber, animalName, animalType, age, i
     }
 
 }
-
 
 export const getAllPetCards = async (listOfPets, setListOfPets) => {
 
@@ -44,12 +43,11 @@ export const getAllPetCards = async (listOfPets, setListOfPets) => {
 
     const {documents, total} = await allPets;
     setListOfPets(documents)
-
 }
 
 export const addNewPetImage = async (imageId, setImageId, imageData, setImageData) => {
     const promise = storage.createFile(
-        '68501a3e0025ef9407dd',
+        '686be6ae00372ddf14e3',
         ID.unique(),
         document.getElementById('newPetImage').files[0]
     );
@@ -64,7 +62,7 @@ export const addNewPetImage = async (imageId, setImageId, imageData, setImageDat
 
 
 export const getNewPetImage = async (imageId, setImageData) => {
-    const result = storage.getFileDownload('68501a3e0025ef9407dd', imageId);
+    const result = storage.getFileDownload('686be6ae00372ddf14e3', imageId);
 
     console.log(result); // Resource URL
     setImageData(result);

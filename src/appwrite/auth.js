@@ -22,7 +22,6 @@ export const  logOut = async (setIsLoggedIn, setSession, setListOfPets) => {
     } finally {
         setIsLoggedIn(false);
         setSession(null);
-        setListOfPets(null);
     }
 
 }
